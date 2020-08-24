@@ -1,6 +1,7 @@
 <?php
 
 class ClassLoader {
+
     protected $directories = array();
 
     public function register() {
@@ -11,9 +12,9 @@ class ClassLoader {
         $this->directories[] = $directory;
     }
 
-    public function loadClass($class) {
+    public function loadClass($className) {
         foreach ($this->directories as $directory) {
-            $file = $directory . '/' .$class . '.php';
+            $file = $directory . '/' .$className . '.php';
             if (is_readable($file)) {
                 require $file; // includeだと、指定したファイルが読み込めない場合warningのみ出して後続の処理を続行させてしまう
                 return;
