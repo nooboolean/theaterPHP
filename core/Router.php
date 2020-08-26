@@ -1,16 +1,19 @@
 <?php
 
-class Router {
+class Router
+{
 
     protected $routes;
 
-    public function __construct($routeDef){
+    public function __construct($routeDef)
+    {
         $this->routes = $this->compileRoutes($routeDef);
     }
 
     // URIの「：」を検知して、正規表現の形にする関数
     // URI内の「:paramName」でクエリパラメータを受け取れるようにしている
-    private function compileRoutes($routeDef){
+    private function compileRoutes($routeDef)
+    {
         $routes = array();
 
         foreach ($routeDef as $uri => $params) {
@@ -30,7 +33,8 @@ class Router {
     }
 
     // 「；」の正規表現とマッチした値を、クエリパラメータの配列とマージする
-    public function resolve($pathInfo){
+    public function resolve($pathInfo)
+    {
         if (substr($pathInfo, 0, 1) !== '/') {
             $pathInfo = '/' . $pathInfo;
         }

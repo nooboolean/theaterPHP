@@ -1,18 +1,22 @@
 <?php
 
-class ClassLoader {
+class ClassLoader
+{
 
     protected $directories = array();
 
-    public function register() {
+    public function register()
+    {
         sql_autoload_register(array($this, 'loadClass'));
     }
 
-    public function registerDirectory($directory) {
+    public function registerDirectory($directory)
+    {
         $this->directories[] = $directory;
     }
 
-    public function loadClass($className) {
+    public function loadClass($className)
+    {
         foreach ($this->directories as $directory) {
             $file = $directory . '/' .$className . '.php';
             if (is_readable($file)) {

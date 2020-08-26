@@ -1,8 +1,10 @@
 <?php
 
-class Request {
+class Request
+{
     
-    public function isPost(){
+    public function isPost()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return true;
         }
@@ -11,7 +13,8 @@ class Request {
     }
 
     // TODO:getyRequestBody()の処理とまとめる
-    public function getQueryParam($key, $default = null){
+    public function getQueryParam($key, $default = null)
+    {
         $paramValue = $_GET[$key];
         if (isset($paramValue)) {
             return $paramValue;
@@ -19,7 +22,8 @@ class Request {
         return $default;
     }
 
-    public function getRequestBody($key, $default = null){
+    public function getRequestBody($key, $default = null)
+    {
         $paramValue = $_POST[$key];
         if (isset($paramValue)) {
             return $paramValue;
@@ -27,22 +31,26 @@ class Request {
         return $default;
     }
 
-    public function getHost(){
+    public function getHost()
+    {
         return !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
     }
 
-    public function isSsl(){
+    public function isSsl()
+    {
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
             return true;
         }
         return false;
     }
 
-    public function getRequestUri(){
+    public function getRequestUri()
+    {
         return $_SERVER['REQUEST_URI'];
     }
 
-    public function getBaseUri(){
+    public function getBaseUri()
+    {
         $scriptName = $_SERVER['SCRIPT_NAME'];
         $requestUri = $this->getRequestUri();
         if (strpos($requestUri, $scriptName) === 0) {
@@ -53,7 +61,8 @@ class Request {
         return '';
     }
 
-    public function getPathInfo(){
+    public function getPathInfo()
+    {
         $requestUri = $this->getRequestUri();
         $baseUri = $this->getBaseUri();
 
