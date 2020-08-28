@@ -41,7 +41,7 @@ abstract class Application
     {
     }
 
-    abstract public function getRoootDir();
+    abstract public function getRootDir();
 
     abstract protected function registerRoutes();
 
@@ -82,12 +82,55 @@ abstract class Application
 
     public function getModelDir()
     {
-        return $this->getRoootDir() . '/models';
+        return $this->getRootDir() . '/models';
     }
 
     public function getWebDir()
     {
         return $this->getRootDir() . '/web';
+    }
+
+    public function run()
+    {
+        $params = $this->router->resolve($this->request->getPathInfo());
+        if ($params == false) {
+        }
+
+        $controller = $params['controller'];
+        $action = $params['action'];
+
+        $this->runAction($controller, $action, $params);
+
+        $this->response->send();
+    }
+
+    public function runAction($controllerName, $action, $params = array())
+    {
+        $controllerClass = ucfirst($controllerName) . 'Controller';
+
+        $controller = $this->findController($controllerClass);
+        if ($controller == false) {
+        }
+
+        $content = $controller->run($action, $params);
+        $this->response->setContent($content);
+    }
+
+    public function findController($controllerClass)
+    {
+        if (!class_exists($controllerClass)) {
+            $controllerFile = $this->getControllerDir() . '/' . $controllerClass . 'php';
+            if (!is_readable($controllerFile)) {
+                return false;
+            } else {
+                require_once $controllerFile;
+
+                if (!class_exists($controllerClass)) {
+                    return false;
+                }
+            }
+        }
+        return new $controllerClass($this);
     }
 
 }
