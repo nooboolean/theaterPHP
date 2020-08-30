@@ -10,6 +10,7 @@ abstract class Controller
     protected $response;
     protected $session;
     protected $dbManager;
+    protected $authActions = array();
 
     public function __construct($application)
     {
@@ -29,6 +30,10 @@ abstract class Controller
         $actionMethod = $action . 'Action';
         if (!method_exists($this, $actionMethod)) {
             $this->forward404();
+        }
+
+        if ($this->needsAuthentication($action) && !$this->session->isAuthenticated()) {
+            throw new UnAuthorizedActionException();
         }
 
         $content = $this->$actionMethod($params);
@@ -105,5 +110,13 @@ abstract class Controller
         return false;
     }
 
-    
+    protected function needsAuthentication($action)
+    {
+        if ($this->authActions === true || (is_array($this->authActions) && in_array($action, $this->authActions))) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

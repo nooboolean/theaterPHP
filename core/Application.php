@@ -8,6 +8,7 @@ abstract class Application
     protected $response;
     protected $session;
     protected $dbManager;
+    protected $loginAction = array();
 
     public function __construct($debug = false)
     {
@@ -104,6 +105,9 @@ abstract class Application
             $this->runAction($controller, $action, $params);
         } catch (HttpNotFoundException $e) {
             $this->display404Page($e);
+        } catch (UnAuthorizedActionException $e) {
+            list($controller, $action) = $this->loginAction;
+            $this->runAction($controller, $action);
         }
 
         $this->response->send();
