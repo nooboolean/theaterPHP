@@ -4,6 +4,6 @@ require 'core/ClassLoader.php';
 
 $loader = new ClassLoader();
 $loader->registerDirectory(dirname(__FILE__) . '/core');
-$loader->registerDirectory(dirname(__FILE__) . '/core/Eception');
+$loader->registerDirectory(dirname(__FILE__) . '/core/Exception');
 $loader->registerDirectory(dirname(__FILE__) . '/models');
 $loader->register();
