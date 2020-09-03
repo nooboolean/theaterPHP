@@ -18,7 +18,7 @@ class View
         $this->layoutVariables[$name] = $value;
     }
 
-    public function render($_path, $_valiables = array(), $_layout = false)
+    public function render($_path, $_variables = array(), $_layout = false)
     {
         $_file = $this->baseDir . '/' . $_path . '.php';
 

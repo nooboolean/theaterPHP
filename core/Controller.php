@@ -11,10 +11,11 @@ abstract class Controller
     protected $session;
     protected $dbManager;
     protected $authActions = array();
+    const CLASSNAMESUFFIX = 10; //「Controller」の文字数
 
     public function __construct($application)
     {
-        $this->controllerName = strtolower(substr(get_class($this), 0, -10));
+        $this->controllerName = strtolower(substr(get_class($this), 0, -self::CLASSNAMESUFFIX));
 
         $this->application = $application;
         $this->request = $application->getRequest();
@@ -27,7 +28,7 @@ abstract class Controller
     {
         $this->actionName = $action;
 
-        $actionMethod = $action . 'Action';
+        $actionMethod = (string)$action;
         if (!method_exists($this, $actionMethod)) {
             $this->forward404();
         }
